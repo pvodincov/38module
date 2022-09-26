@@ -2,14 +2,11 @@ package ru.sf;
 
 import org.junit.*;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.testng.annotations.BeforeSuite;
 
 import java.util.concurrent.TimeUnit;
 
@@ -206,7 +203,7 @@ public class HomePage {
 
     @Test
     //test is ok
-    public void checkMassageEnterRightData() {
+    public void checkMassageEnterNullData() {
 
         //driver.get("https://skillfactory.ru/");
         String textDialogMessage = "Обязательное поле";
@@ -665,12 +662,12 @@ public class HomePage {
 
     }
 
-    @AfterClass
+   /* @AfterClass
             public static void end()
     {
         driver.quit();
         System.out.println("test finish");
-    }
+    }*/
 }
 
 
