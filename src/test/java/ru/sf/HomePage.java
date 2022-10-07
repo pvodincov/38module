@@ -2,18 +2,22 @@ package ru.sf;
 
 import org.junit.*;
 import org.junit.Test;
+import org.junit.jupiter.api.Tag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 
+
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertTrue;
 
 public class HomePage {
 
     public static final WebDriver driver;
-    public static final PageObjects pageObjects;
+    public static final HomePageMetods homePageMetods;
     private String url = "https://skillfactory.ru/";
 
     static {
@@ -22,90 +26,61 @@ public class HomePage {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         String Url = "https://skillfactory.ru/";
-        pageObjects = new PageObjects(driver);
-
+        homePageMetods = new HomePageMetods(driver);
     }
 
     @Before
     public  void setup(){
         System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
-        pageObjects.goUrl(url);
+        homePageMetods.goUrl(url);
     }
-
-    @Test
+     @Test
     //test is ok
-    public void equalsLogoUrl() {
-        //pageObjects.goUrl();
-        //driver.get("https://skillfactory.ru/");
-        String url = "https://skillfactory.ru/";
-        WebElement logotip = driver.findElement(new By.ByXPath("//*[@id=\"rec456746055\"]/div/div/div[46]/a/img"));
-        logotip.click();
-        String a = driver.getCurrentUrl();
-        Assert.assertEquals(a, url);
+    public void equalsLogUrl() {
+            String url = "https://skillfactory.ru/";
+            homePageMetods.clickLogotipe();
 
+            String currentUrl = driver.getCurrentUrl();
+            Assert.assertEquals(currentUrl, url);
+        }
 
-        //driver.close();
-    }
-
+    @Tag("test HEAD submenu")
     @Test
+    //@ParameterizedTest
+    //@CsvFileSource(resources = "/data.csv", numLinesToSkip = 1)
     //test is ok
     public void equalsKursAllUrl() {
-        //@ParameterizedTest в будущем попробовать параметризированный тест с csv
-
-        //driver.get("https://skillfactory.ru/");
         String urlAllKurs = "https://skillfactory.ru/courses";
 
-        Actions action = new Actions(driver);
-        WebElement Kurs = driver.findElement(new By.ByClassName("tn-elem__4567460551658239202599"));
-        Kurs.click();
-        WebElement allKurs = driver.findElement(new By.ByXPath("//*[@id=\"nav493615268\"]/div/div[3]/ul/li[1]/div/a/span"));
+        homePageMetods.urlAllKurs();
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertEquals(currentUrl, urlAllKurs);
 
-        action.moveToElement(allKurs).build().perform();
-        allKurs.click();
-        String b = driver.getCurrentUrl();
-        Assert.assertEquals(b, urlAllKurs);
-
-        //driver.quit();
     }
 
-    @Test
+  /*  @Test
     //test is ok
     public void equalsKursDataScience() {
-
-        //driver.get("https://skillfactory.ru/");
         String urlAllKursDataScience = "https://skillfactory.ru/courses/data-science";
 
-        Actions action = new Actions(driver);
-        WebElement Kurs = driver.findElement(new By.ByXPath("//*[@id=\"rec456746055\"]/div/div/div[45]"));
-        action.moveToElement(Kurs).build().perform();
-        WebElement KursDataSceience = driver.findElement(new By.ByXPath("//*[@id=\"nav493615268\"]/div/div[3]/ul/li[2]/div/a"));
-        action.moveToElement(KursDataSceience).build().perform();
-        KursDataSceience.click();
-        String c = driver.getCurrentUrl();
-        //System.out.println(c);
-        Assert.assertEquals(c, urlAllKursDataScience);
+        homePageMetods.KursDataSceience();
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertEquals(currentUrl, urlAllKursDataScience);
 
-        //driver.quit();
-    }
-
+    }*/
+@Tag ("test HEAD Menu")
     @Test
+//@ParameterizedTest
+//@CsvFileSource(resources = "/data.csv", numLinesToSkip = 1)
+//test is ok
+
     //test is ok
     public void equalFreeEvents() {
-
-        //driver.get("https://skillfactory.ru/");
         String urlAllKurs = "https://skillfactory.ru/events";
 
-        Actions action = new Actions(driver);
-        WebElement Kurs = driver.findElement(new By.ByXPath("//*[@id=\"rec456746055\"]/div/div/div[45]"));
-        action.moveToElement(Kurs).build().perform();
-        WebElement KursDataSceience = driver.findElement(new By.ByXPath("//*[@id=\"rec456746055\"]/div/div/div[41]"));
-
-        action.moveToElement(KursDataSceience).build().perform();
-        KursDataSceience.click();
-        String c = driver.getCurrentUrl();
-        Assert.assertEquals(c, urlAllKurs);
-
-        //driver.quit();
+        homePageMetods.KursFreeEvents();
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertEquals(currentUrl, urlAllKurs);
     }
 
     @Test
@@ -123,37 +98,27 @@ public class HomePage {
 
     @Test
     //test is ok
-    public void equalKorporStudTextToPage() {
+    public void equalKorporStudUrl() {
 
+        String expectedUrl = "https://new.skillfactory.ru/corporativnoye-obuchenye";
 
-        //driver.get("https://skillfactory.ru/");
-        String textOfBody = "Развивайте бизнес вместе со Skillfactory";
-
-        WebElement KorporStud = driver.findElement(new By.ByXPath("//*[@id=\"rec456746055\"]/div/div/div[42]/a"));
-        KorporStud.click();
-
-        String BodyTextCorporPage = driver.findElement(new By.ByXPath("//*[@id=\"rec425993788\"]/div/div/div[3]/h1")).getText();
-
-        Assert.assertEquals(textOfBody, BodyTextCorporPage);
-
-        //driver.quit();
-
-
+        homePageMetods.KorporStud();
+        String a = driver.getCurrentUrl();
+        Boolean b = (a.contains(expectedUrl));
+        assertTrue(b);
     }
 
     @Test
     //test is ok
-    public void equalSotrudnTextOfPage() {
+    public void equalSotrudnUrl() {
 
-        //driver.get("https://skillfactory.ru/");
-        String TextPartnershipBody = "Мы открыты для любых форматов сотрудничества — как традиционных, так и новых. Развивайте бизнес вместе с нами!";
+        String ExpectedUrl = "https://new.skillfactory.ru/partnership";
 
-        WebElement SotrudnGet = driver.findElement(new By.ByXPath("//*[@id=\"rec456746055\"]/div/div/div[44]/a"));
-        SotrudnGet.click();
-        String actualTextParnership = driver.findElement(new By.ByXPath("//*[@id=\"rec368990860\"]/div/div/div[4]/div")).getText();
-        System.out.println(actualTextParnership);
-        Assert.assertEquals(TextPartnershipBody, actualTextParnership);
-
+        homePageMetods.equalSotrudnUrl();
+        String a = driver.getCurrentUrl();
+        //System.out.println(a);
+        Boolean b = (a.contains(ExpectedUrl));
+        assertTrue(b);
         //driver.quit();
     }
 
@@ -161,22 +126,18 @@ public class HomePage {
     //test is ok
     public void equalBlogTextOfBody() {
 
-        //driver.get("https://skillfactory.ru/");
-        String rightLogotipeSiteText = "Как попасть в IT и освоить цифровые профессии";
+        String equalUrl = "https://blog.skillfactory.ru/";
 
-        WebElement BlogButton = driver.findElement(new By.ByXPath("//*[@id=\"rec456746055\"]/div/div/div[43]/a"));
-        BlogButton.click();
+        homePageMetods.equalBlogUrl();
 
         String winHandleBefore = driver.getWindowHandle();
         for (String winHandle : driver.getWindowHandles()) {
             driver.switchTo().window(winHandle);
         }
-        System.out.println(driver.getCurrentUrl());
-        // driver.findElement(new By.ByXPath("//*[@id=\"menu-item-2281\"]"));
-        String logotipeSiteText = driver.findElement(new By.ByXPath("//*[@id=\"masthead\"]/div/div[2]/div[2]/p")).getText();
-
-        //System.out.println(logotipeSiteText);
-        Assert.assertEquals(logotipeSiteText, rightLogotipeSiteText);
+        String a = driver.getCurrentUrl();
+        System.out.println(a);
+        Boolean b = (a.contains(equalUrl));
+        assertTrue(b);
 
        // driver.quit();
 
@@ -470,8 +431,6 @@ public class HomePage {
 
         WebElement GetFreeIt = driver.findElement(new By.ByXPath("//*[@id=\"form456746079\"]/div[2]/div[4]/button"));
         GetFreeIt.click();
-        GetFreeIt.click();
-        GetFreeIt.click();
 
         String catchErrorText = driver.findElement(new By.ByXPath("//*[@id=\"tilda-popup-for-error\"]/div[1]/p")).getText();
         //System.out.println(catchErrorText);
@@ -645,18 +604,18 @@ public class HomePage {
     public void checkFooterSocSiteYandex() {
 
        // driver.get("https://skillfactory.ru/");
-        String urlHabr = "https://dzen.ru/skillfactory";
+        String urlYa = "https://dzen.ru/id/5e1b45532fda8600b1857222";
 
 
-        WebElement VkUrl = driver.findElement(new By.ByXPath("//*[@id=\"rec298827602\"]/div/div/div[15]/div/a"));
-        VkUrl.click();
+       homePageMetods.checkFooterYandex();
         String winHandleBefore = driver.getWindowHandle();
         for(String winHandle : driver.getWindowHandles()) {
             driver.switchTo().window(winHandle);
         }
-
-        String HabrUrlActual = driver.getCurrentUrl();
-        Assert.assertEquals(urlHabr, HabrUrlActual);
+        String a = driver.getCurrentUrl();
+        System.out.println(a);
+        Boolean b = (a.contains(urlYa));
+        assertTrue(b);
 
         //driver.quit();
 
