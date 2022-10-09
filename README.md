@@ -2,7 +2,9 @@
 
 
 для запуска склонить проект
-mvn clean 
+
+mvn clean
+
 mvn test
 
 
