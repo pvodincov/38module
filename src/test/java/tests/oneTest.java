@@ -1,54 +1,56 @@
-package ru.sf;
+package tests;
 
-import org.junit.*;
-import org.junit.Test;
-import org.junit.jupiter.api.Tag;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
+import ru.HomePageMetods;
 
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertTrue;
 
-public class HomePage {
 
-    public static final WebDriver driver;
-    public static final HomePageMetods homePageMetods;
+public class oneTest {
+
+    private static WebDriver driver;
+    private static HomePageMetods homePageMetods;
     private String url = "https://skillfactory.ru/";
 
-    static {
-        System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
+   static  {
+       System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
+
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(20,
-                TimeUnit.SECONDS);
-       // driver.manage().timeouts().pageLoadTimeout(10000,TimeUnit.MILLISECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         String Url = "https://skillfactory.ru/";
         homePageMetods = new HomePageMetods(driver);
+
     }
 
-    @Before
+    @BeforeEach
     public  void setup(){
         System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
         homePageMetods.goUrl(url);
     }
-     @Test
+    @Test
     //test is ok
     public void equalsLogUrl() {
-            String url = "https://skillfactory.ru/";
-            homePageMetods.clickLogotipe();
 
-            String currentUrl = driver.getCurrentUrl();
-            Assert.assertEquals(currentUrl, url);
-        }
+        String url = "https://skillfactory.ru/";
 
-    @Tag("test HEAD submenu")
+        homePageMetods.clickLogotipe();
+        String currentUrl = driver.getCurrentUrl();
+        Assert.assertEquals(currentUrl, url);
+
+    }
+
     @Test
     //@ParameterizedTest
     //@CsvFileSource(resources = "/data.csv", numLinesToSkip = 1)
@@ -58,21 +60,10 @@ public class HomePage {
 
         homePageMetods.urlAllKurs();
         String currentUrl = driver.getCurrentUrl();
-        Assert.assertEquals(currentUrl, urlAllKurs);
+        org.junit.Assert.assertEquals(currentUrl, urlAllKurs);
 
     }
-
-  /*  @Test
-    //test is ok
-    public void equalsKursDataScience() {
-        String urlAllKursDataScience = "https://skillfactory.ru/courses/data-science";
-
-        homePageMetods.KursDataSceience();
-        String currentUrl = driver.getCurrentUrl();
-        Assert.assertEquals(currentUrl, urlAllKursDataScience);
-
-    }*/
-@Tag ("test HEAD Menu")
+    @Tag("test HEAD Menu")
     @Test
 //@ParameterizedTest
 //@CsvFileSource(resources = "/data.csv", numLinesToSkip = 1)
@@ -84,7 +75,7 @@ public class HomePage {
 
         homePageMetods.KursFreeEvents();
         String currentUrl = driver.getCurrentUrl();
-        Assert.assertEquals(currentUrl, urlAllKurs);
+        org.junit.Assert.assertEquals(currentUrl, urlAllKurs);
     }
 
     @Test
@@ -93,11 +84,11 @@ public class HomePage {
 
         //driver.get("https://skillfactory.ru/");
         //String urlAllKurs = "https://skillfactory.ru/data-science";
-        String titel = "РћРЅР»Р°Р№РЅ-С€РєРѕР»Р° SkillFactory вЂ” РѕРЅР»Р°Р№РЅ-РѕР±СѓС‡РµРЅРёРµ РІРѕСЃС‚СЂРµР±РѕРІР°РЅРЅС‹Рј IT-РїСЂРѕС„РµСЃСЃРёСЏРј";
+        String titel = "Онлайн-школа SkillFactory — онлайн-обучение востребованным IT-профессиям";
         String d = driver.getTitle();
-        Assert.assertEquals(d, titel);
+        org.junit.Assert.assertEquals(d, titel);
 
-       // driver.quit();
+        // driver.quit();
     }
 
     @Test
@@ -143,7 +134,7 @@ public class HomePage {
         Boolean b = (a.contains(equalUrl));
         assertTrue(b);
 
-       // driver.quit();
+        // driver.quit();
 
     }
 
@@ -157,10 +148,10 @@ public class HomePage {
 
         WebElement telNumber1 = driver.findElement(new By.ByXPath("//*[@id=\"rec456746055\"]/div/div/div[39]/div/a"));
         String num1 = telNumber1.getText();
-        Assert.assertEquals(equalTelNuber1, num1);
+        org.junit.Assert.assertEquals(equalTelNuber1, num1);
         WebElement telNuber2 = driver.findElement(new By.ByXPath("//*[@id=\"rec456746055\"]/div/div/div[40]/div/a"));
         String num2 = telNuber2.getText();
-        Assert.assertEquals(equalTelNuber2, num2);
+        org.junit.Assert.assertEquals(equalTelNuber2, num2);
 
         //driver.quit();
 
@@ -171,7 +162,7 @@ public class HomePage {
     public void checkMassageEnterNullData() {
 
         //driver.get("https://skillfactory.ru/");
-        String textDialogMessage = "РћР±СЏР·Р°С‚РµР»СЊРЅРѕРµ РїРѕР»Рµ";
+        String textDialogMessage = "Обязательное поле";
         WebElement buttonSupport = driver.findElement(new By.ByXPath("//*[@id=\"form456746058\"]/div[2]/div[5]/button"));
         buttonSupport.click();
         buttonSupport.click();
@@ -180,7 +171,7 @@ public class HomePage {
         String ExpectedMassageText = driver.findElement(new By.ByXPath("//*[@id=\"form456746058\"]/div[2]/div[1]/div/div")).getText();
 
         System.out.println(ExpectedMassageText);
-        Assert.assertEquals(ExpectedMassageText, textDialogMessage);
+        org.junit.Assert.assertEquals(ExpectedMassageText, textDialogMessage);
 
         //driver.quit();
 
@@ -192,7 +183,7 @@ public class HomePage {
     public void MassageEnterRightName() {
 
         //driver.get("https://skillfactory.ru/");
-        String textDialogMessage = "РџРѕР¶Р°Р»СѓР№СЃС‚Р°, Р·Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ РїРѕР»СЏ";
+        String textDialogMessage = "Пожалуйста, заполните все обязательные поля";
 
         WebElement enterName = driver.findElement(new By.ByXPath("//*[@id=\"form456746058\"]/div[2]/div[1]/div/input"));
         enterName.click();
@@ -204,7 +195,7 @@ public class HomePage {
 
         String ExpectedMassageText = driver.findElement(new By.ByXPath("//*[@id=\"tilda-popup-for-error\"]")).getText();
         // System.out.println(ExpectedMassageText);
-        Assert.assertEquals(ExpectedMassageText, textDialogMessage);
+        org.junit.Assert.assertEquals(ExpectedMassageText, textDialogMessage);
 
         //driver.quit();
     }
@@ -214,7 +205,7 @@ public class HomePage {
     public void MassageEnterRightNameAndRigthEmail() {
 
         //driver.get("https://skillfactory.ru/");
-        String textDialogMessage = "РћР±СЏР·Р°С‚РµР»СЊРЅРѕРµ РїРѕР»Рµ";
+        String textDialogMessage = "Обязательное поле";
 
 
         WebElement enterName = driver.findElement(new By.ByXPath("//*[@id=\"form456746058\"]/div[2]/div[1]/div/input"));
@@ -230,9 +221,9 @@ public class HomePage {
         ButtonGetKonsul.click();
         String ErrorMessage = driver.findElement(new By.ByXPath("//*[@id=\"form456746058\"]/div[2]/div[3]/div/div[2]")).getText();
         System.out.println(ErrorMessage);
-        Assert.assertEquals(ErrorMessage, textDialogMessage);
+        org.junit.Assert.assertEquals(ErrorMessage, textDialogMessage);
 
-       // driver.quit();
+        // driver.quit();
 
 
     }
@@ -242,7 +233,7 @@ public class HomePage {
     public void MassageEnterRightNameAndFailEmail() {
 
         //driver.get("https://skillfactory.ru/");
-        String textDialogMessage = "РЈРєР°Р¶РёС‚Рµ, РїРѕР¶Р°Р»СѓР№СЃС‚Р°, РєРѕСЂСЂРµРєС‚РЅС‹Р№ email";
+        String textDialogMessage = "Укажите, пожалуйста, корректный email";
 
         WebElement enterName = driver.findElement(new By.ByXPath("//*[@id=\"form456746058\"]/div[2]/div[1]/div/input"));
         enterName.click();
@@ -259,9 +250,9 @@ public class HomePage {
 
         String findErrorMessage = driver.findElement(new By.ByXPath("//*[@id=\"form456746058\"]/div[2]/div[2]/div/div")).getText();
 
-        Assert.assertEquals(findErrorMessage, textDialogMessage);
+        org.junit.Assert.assertEquals(findErrorMessage, textDialogMessage);
 
-       // driver.quit();
+        // driver.quit();
 
     }
 
@@ -270,7 +261,7 @@ public class HomePage {
     public void MessageEnterRightNameAndRightEmailAndShortNumber() {
 
         //driver.get("https://skillfactory.ru/");
-        String textDialogMessage = "РЎР»РёС€РєРѕРј РєРѕСЂРѕС‚РєРѕРµ Р·РЅР°С‡РµРЅРёРµ";
+        String textDialogMessage = "Слишком короткое значение";
 
 
         WebElement enterName = driver.findElement(new By.ByXPath("//*[@id=\"form456746058\"]/div[2]/div[1]/div/input"));
@@ -293,9 +284,9 @@ public class HomePage {
 
         String ErrorMessage = driver.findElement(new By.ByXPath("//*[@id=\"tilda-popup-for-error\"]/div[1]")).getText();
 
-        Assert.assertEquals(ErrorMessage, textDialogMessage);
+        org.junit.Assert.assertEquals(ErrorMessage, textDialogMessage);
 
-       // driver.quit();
+        // driver.quit();
     }
 
 
@@ -308,7 +299,7 @@ public class HomePage {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.get("https://skillfactory.ru/");
-        String textDialogMessage = "РЈРєР°Р¶РёС‚Рµ, РїРѕР¶Р°Р»СѓР№СЃС‚Р°, РєРѕСЂСЂРµРєС‚РЅС‹Р№ РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°";
+        String textDialogMessage = "Укажите, пожалуйста, корректный номер телефона";
 
         WebElement enterName = driver.findElement(new By.ByXPath("//*[@id=\"form456746058\"]/div[2]/div[1]/div/input"));
         enterName.click();
@@ -345,8 +336,8 @@ public class HomePage {
     //test is ok
     public void getKonsulNullData() {
 
-       // driver.get("https://skillfactory.ru/");
-        String textDialog = "РџРѕР¶Р°Р»СѓР№СЃС‚Р°, Р·Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ РїРѕР»СЏ";
+        // driver.get("https://skillfactory.ru/");
+        String textDialog = "Пожалуйста, заполните все обязательные поля";
 
         WebElement buttonGetConsul = driver.findElement(new By.ByXPath("//*[@id=\"rec456746070\"]/div/div/div[6]/a"));
         buttonGetConsul.click();
@@ -356,9 +347,9 @@ public class HomePage {
         buttonSubmit.click();
 
         String textError = driver.findElement(new By.ByXPath("//*[@id=\"form456746072\"]/div[2]/div[5]/div/div/p[2]")).getText();
-        Assert.assertEquals(textError, textDialog);
+        org.junit.Assert.assertEquals(textError, textDialog);
 
-       // driver.quit();
+        // driver.quit();
     }
 
     @Test
@@ -366,9 +357,9 @@ public class HomePage {
     public void getKonsulNameNullEmailFailShortNumber() {
 
         //driver.get("https://skillfactory.ru/");
-        String textDialog = "РџРѕР¶Р°Р»СѓР№СЃС‚Р°, Р·Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ РїРѕР»СЏ\n" +
-                "РЈРєР°Р¶РёС‚Рµ, РїРѕР¶Р°Р»СѓР№СЃС‚Р°, РєРѕСЂСЂРµРєС‚РЅС‹Р№ email\n" +
-                "РЎР»РёС€РєРѕРј РєРѕСЂРѕС‚РєРѕРµ Р·РЅР°С‡РµРЅРёРµ";
+        String textDialog = "Пожалуйста, заполните все обязательные поля\n" +
+                "Укажите, пожалуйста, корректный email\n" +
+                "Слишком короткое значение";
 
         WebElement buttonGetConsul = driver.findElement(new By.ByXPath("//*[@id=\"rec456746070\"]/div/div/div[6]/a"));
         buttonGetConsul.click();
@@ -389,7 +380,7 @@ public class HomePage {
         buttonSubmit.click();
 
         String textError = driver.findElement(new By.ByXPath("//*[@id=\"form456746072\"]/div[2]/div[5]/div/div")).getText();
-        Assert.assertEquals(textError, textDialog);
+        org.junit.Assert.assertEquals(textError, textDialog);
 
         //driver.quit();
     }
@@ -400,7 +391,7 @@ public class HomePage {
     public void getKonsulNameRightEmailRightNumberRight(){
 
         //driver.get("https://skillfactory.ru/");
-        String textDialog = "РЎРїР°СЃРёР±Рѕ! РњС‹ РїРѕР·РІРѕРЅРёРј РІР°Рј РІ С‚РµС‡РµРЅРёРµ РґРЅСЏ СЃ 10 РґРѕ 19 Рё РїРѕРјРѕР¶РµРј РІС‹Р±СЂР°С‚СЊ РЅР°РїСЂР°РІР»РµРЅРёРµ РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ";
+        String textDialog = "Спасибо! Мы позвоним вам в течение дня с 10 до 19 и поможем выбрать направление для обучения";
 
         WebElement buttonGetConsul = driver.findElement(new By.ByXPath("//*[@id=\"rec456746070\"]/div/div/div[6]/a"));
         buttonGetConsul.click();
@@ -435,7 +426,7 @@ public class HomePage {
     public void getFreeItFailNotCheckPunkt(){
 
         //driver.get("https://skillfactory.ru/");
-        String textDialogMessage = "РџРѕР¶Р°Р»СѓР№СЃС‚Р°, Р·Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ РїРѕР»СЏ";
+        String textDialogMessage = "Пожалуйста, заполните все обязательные поля";
 
         WebElement checkIndicator = driver.findElement(new By.ByXPath("//*[@id=\"form456746079\"]/div[2]/div[2]/div/label/div[1]"));
         checkIndicator.click();
@@ -447,7 +438,7 @@ public class HomePage {
 
         String catchErrorText = driver.findElement(new By.ByXPath("//*[@id=\"tilda-popup-for-error\"]")).getText();
         System.out.println(catchErrorText);
-        Assert.assertEquals(catchErrorText,textDialogMessage);
+        org.junit.Assert.assertEquals(catchErrorText,textDialogMessage);
 
         //driver.quit();
 
@@ -458,7 +449,7 @@ public class HomePage {
     public void getFreeItFailEmail(){
 
         //driver.get("https://skillfactory.ru/");
-        String errorMessage = "РЈРєР°Р¶РёС‚Рµ, РїРѕР¶Р°Р»СѓР№СЃС‚Р°, РєРѕСЂСЂРµРєС‚РЅС‹Р№ email";
+        String errorMessage = "Укажите, пожалуйста, корректный email";
 
         WebElement EmailPole = driver.findElement(new By.ByXPath("//*[@id=\"form456746079\"]/div[2]/div[1]/div/input"));
         EmailPole.click();
@@ -471,7 +462,7 @@ public class HomePage {
 
         String catchErrorText = driver.findElement(new By.ByXPath("//*[@id=\"tilda-popup-for-error\"]")).getText();
         //System.out.println(catchErrorText);
-        Assert.assertEquals(errorMessage,catchErrorText);
+        org.junit.Assert.assertEquals(errorMessage,catchErrorText);
 
         //driver.quit();
 
@@ -483,7 +474,7 @@ public class HomePage {
 
         //driver.get("https://skillfactory.ru/");
         String kapchaText = "Please check the box to let us know you're human";
-        String errorMessage = "РЎРїР°СЃРёР±Рѕ! Р”Р°РЅРЅС‹Рµ СѓСЃРїРµС€РЅРѕ РѕС‚РїСЂР°РІР»РµРЅС‹.";
+        String errorMessage = "Спасибо! Данные успешно отправлены.";
 
         WebElement EmailPole = driver.findElement(new By.ByXPath("//*[@id=\"form456746079\"]/div[2]/div[1]/div/input"));
         EmailPole.click();
@@ -508,7 +499,7 @@ public class HomePage {
     //test is ok
     public void checkFooterSocSiteHabr() {
         //pageObjects.goUrl();
-       // driver.get("https://skillfactory.ru/");
+        // driver.get("https://skillfactory.ru/");
         String urlHabr = "https://habr.com/ru/company/skillfactory/blog/";
 
 
@@ -520,7 +511,7 @@ public class HomePage {
         }
 
         String HabrUrlActual = driver.getCurrentUrl();
-        Assert.assertEquals(urlHabr, HabrUrlActual);
+        org.junit.Assert.assertEquals(urlHabr, HabrUrlActual);
 
         //driver.quit();
 
@@ -530,7 +521,7 @@ public class HomePage {
     //test is ok
     public void checkFooterSocSiteVk() {
 
-       // driver.get("https://skillfactory.ru/");
+        // driver.get("https://skillfactory.ru/");
         String urlVk = "https://vk.com/skillfactoryschool";
 
         WebElement VkUrl = driver.findElement(new By.ByXPath("//*[@id=\"rec298827602\"]/div/div/div[14]/div/a"));
@@ -541,7 +532,7 @@ public class HomePage {
         }
 
         String HabrUrlActual = driver.getCurrentUrl();
-        Assert.assertEquals(urlVk, HabrUrlActual);
+        org.junit.Assert.assertEquals(urlVk, HabrUrlActual);
 
         //driver.quit();
 
@@ -563,7 +554,7 @@ public class HomePage {
         }
 
         String TwitUrlActual = driver.getCurrentUrl();
-        Assert.assertEquals(urlTwit, TwitUrlActual);
+        org.junit.Assert.assertEquals(urlTwit, TwitUrlActual);
 
         //driver.quit();
 
@@ -573,7 +564,7 @@ public class HomePage {
     //test is ok
     public void checkFooterSocSiteYoutube() {
 
-       // driver.get("https://skillfactory.ru/");
+        // driver.get("https://skillfactory.ru/");
         String urlYoutube = "https://www.youtube.com/channel/UClOTq6XN8g7-16QLGnZ6_EA";
 
         WebElement VkUrl = driver.findElement(new By.ByXPath("//*[@id=\"rec298827602\"]/div/div/div[12]/div/a"));
@@ -585,7 +576,7 @@ public class HomePage {
 
         String HabrUrlActual = driver.getCurrentUrl();
 
-        Assert.assertEquals(HabrUrlActual, urlYoutube);
+        org.junit.Assert.assertEquals(HabrUrlActual, urlYoutube);
 
         //driver.quit();
 
@@ -608,7 +599,7 @@ public class HomePage {
         }
 
         String HabrUrlActual = driver.getCurrentUrl();
-        Assert.assertEquals(urlHabr, HabrUrlActual);
+        org.junit.Assert.assertEquals(urlHabr, HabrUrlActual);
 
         //driver.quit();
 
@@ -619,11 +610,11 @@ public class HomePage {
     //test is ok
     public void checkFooterSocSiteYandex() {
 
-       // driver.get("https://skillfactory.ru/");
+        // driver.get("https://skillfactory.ru/");
         String TextTitel = "Skillfactory";
 
 
-       homePageMetods.checkFooterYandex();
+        homePageMetods.checkFooterYandex();
         String winHandleBefore = driver.getWindowHandle();
         for(String winHandle : driver.getWindowHandles()) {
             driver.switchTo().window(winHandle);
@@ -631,7 +622,7 @@ public class HomePage {
 
         String a = driver.findElement(new By.ByXPath("/html/body/div[2]/div/div[1]/div/div[2]/div[2]/div[2]/div/div/div[1]/div/div[1]/div[1]/span")).getText();
         //System.out.println(a);
-        Assert.assertEquals(a,TextTitel);
+        org.junit.Assert.assertEquals(a,TextTitel);
         /*String a = driver.getCurrentUrl();
         System.out.println(a);
         Boolean b = (a.contains(urlYa));
@@ -648,15 +639,18 @@ public class HomePage {
         System.out.println("test finish");
     }*/
 
-   /* @AfterTest(alwaysRun = true)
-    public void closeWindow(){
-        driver.close();
-    }*/
-    @AfterMethod(alwaysRun = true)
+    /* @AfterTest(alwaysRun = true)
+     public void closeWindow(){
+         driver.close();
+     }*/
+    @AfterClass
     public void closeBrowser(){
+
         driver.quit();
     }
 }
+
+
 
 
 

@@ -1,4 +1,4 @@
-package ru.sf;
+package ru;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,9 +9,11 @@ public class HomePageMetods {
 
     private static final String URL = "https://skillfactory.ru/";
     private final WebDriver driver;
+    private HomePageMetods homePageMetods;
 
     public HomePageMetods(WebDriver webdriver) {
         this.driver = webdriver;
+
     }
 
     public void goUrl(String Url) {

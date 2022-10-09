@@ -1,6 +1,3 @@
-package ru.sf;
-
-import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -8,13 +5,13 @@ import java.util.Properties;
 public class ConfProperties {
 
     protected static FileInputStream fileInputStream;
-    protected static Properties PROPERTIES;
+     static Properties PROPERTIES;
 
     static {
         try {
             fileInputStream = new FileInputStream ("src/main/resources/conf.properties");
-            PROPERTIES = new Properties();
-            PROPERTIES.load(fileInputStream);
+            setPROPERTIES(new Properties());
+            getPROPERTIES().load(fileInputStream);
 
         }catch (IOException e){
             e.printStackTrace();
@@ -29,5 +26,13 @@ public class ConfProperties {
         }
 
     }
-    public static String getProperty(String key) {return PROPERTIES.getProperty(key);}
+    public static String getProperty(String key) {return getPROPERTIES().getProperty(key);}
+
+    static Properties getPROPERTIES() {
+        return PROPERTIES;
+    }
+
+    static void setPROPERTIES(Properties PROPERTIES) {
+        ConfProperties.PROPERTIES = PROPERTIES;
+    }
 }
